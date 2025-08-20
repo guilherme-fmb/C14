@@ -28,7 +28,7 @@ namespace SimpleAlgebraApp
 
             var sum = v1 + v2;
             double dot = v1.DotProduct(v2);
-            var cross = RetornaProdutoVetorial(v1, v2);
+            var cross = FuncProdutoVetorial(v1, v2);
             var transformed = matrix * v1; // multiplicando matriz por vetor
             double normV1 = v1.L2Norm();
             double normV2 = v2.L2Norm();
