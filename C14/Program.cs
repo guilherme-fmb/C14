@@ -4,7 +4,7 @@ namespace SimpleAlgebraApp
 {
     class Program
     {
-        static Vector<double> FuncProdutoVetorial(Vector<double> a, Vector<double> b)
+        static Vector<double> RetornaProdutoVetorial(Vector<double> a, Vector<double> b)
         {
             return Vector<double>.Build.DenseOfArray(new double[]
             {
