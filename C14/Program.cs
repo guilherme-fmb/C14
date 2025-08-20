@@ -4,7 +4,7 @@ namespace SimpleAlgebraApp
 {
     class Program
     {
-        static Vector<double> FuncaoProdutoVetorial(Vector<double> a, Vector<double> b)
+        static Vector<double> FuncProdutoVetorial(Vector<double> a, Vector<double> b)
         {
             return Vector<double>.Build.DenseOfArray(new double[]
             {
@@ -28,7 +28,7 @@ namespace SimpleAlgebraApp
 
             var sum = v1 + v2;
             double dot = v1.DotProduct(v2);
-            var cross = FuncaoProdutoVetorial(v1, v2);
+            var cross = FuncProdutoVetorial(v1, v2);
             var transformed = matrix * v1; // multiplicando matriz por vetor
             double normV1 = v1.L2Norm();
             double normV2 = v2.L2Norm();
