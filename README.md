@@ -17,5 +17,10 @@ Também é possível gerenciar os pacotes NuGet e gerar o executável utilizando
 
 ## Execução
 É necessário baixar [o runtime do .NET 8.0](https://dotnet.microsoft.com/pt-br/download/dotnet/8.0) caso a aplicação não seja compilada utilizando [publish](https://learn.microsoft.com/en-us/dotnet/core/tools/dotnet-publish) para que ela possa ser [self-contained](https://learn.microsoft.com/en-us/dotnet/core/deploying/)
-### Dependências
-[ MathNet.Numerics](https://www.nuget.org/packages/MathNet.Numerics/5.0.0?_src=template)
+
+## Testes
+Foi utilizado a suíte de testes [xUnit](https://xunit.net/?tabs=cs). Os testes podem ser facilmente rodados no Visual Studio utilizando o menu **Teste > Rodar todos os testes**.
+
+## Dependências
+[ MathNet.Numerics](https://www.nuget.org/packages/MathNet.Numerics/5.0.0?_src=template)  
+[xUnit](https://www.nuget.org/packages/xunit)
