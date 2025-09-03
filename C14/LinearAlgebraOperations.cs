@@ -21,7 +21,7 @@ namespace C14
 
         public Vector<double> Add(Vector<double> a, Vector<double> b)
         {
-            return a + b;
+            return a - b;
         }
         public Vector<double> Transform(Matrix<double> matrix, Vector<double> vector)
         {
