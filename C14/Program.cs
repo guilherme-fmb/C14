@@ -2,23 +2,45 @@
 
 namespace SimpleAlgebraApp
 {
-    class Program
+    public class LinearAlgebraOperations
     {
-        static Vector<double> FuncProdutoVetorial(Vector<double> a, Vector<double> b)
+        public Vector<double> CrossProduct(Vector<double> a, Vector<double> b)
         {
             return Vector<double>.Build.DenseOfArray(new double[]
             {
-                a[1]*b[2] - a[2]*b[1],
-                a[2]*b[0] - a[0]*b[2],
-                a[0]*b[1] - a[1]*b[0]
+                a[1] * b[2] - a[2] * b[1],
+                a[2] * b[0] - a[0] * b[2],
+                a[0] * b[1] - a[1] * b[0]
             });
         }
 
+        public double DotProduct(Vector<double> a, Vector<double> b)
+        {
+            return a.DotProduct(b);
+        }
+
+        public Vector<double> Add(Vector<double> a, Vector<double> b)
+        {
+            return a + b;
+        }
+        public Vector<double> Transform(Matrix<double> matrix, Vector<double> vector)
+        {
+            return matrix * vector;
+        }
+        public double Norm(Vector<double> v)
+        {
+            return v.L2Norm();
+        }
+    }
+
+    class Program
+    {
         static void Main(string[] args)
         {
+            var operations = new LinearAlgebraOperations();
+
             var v1 = Vector<double>.Build.DenseOfArray(new double[] { 1, 2, 3 });
             var v2 = Vector<double>.Build.DenseOfArray(new double[] { 4, 5, 6 });
-
             var matrix = Matrix<double>.Build.DenseOfArray(new double[,]
             {
                 { 1, 0, 2 },
@@ -26,13 +48,12 @@ namespace SimpleAlgebraApp
                 { -1, 0, 1 }
             });
 
-            var sum = v1 + v2;
-            double dot = v1.DotProduct(v2);
-            var cross = FuncProdutoVetorial(v1, v2);
-            var transformed = matrix * v1; // multiplicando matriz por vetor
-            double normV1 = v1.L2Norm();
-            double normV2 = v2.L2Norm();
-
+            var sum = operations.Add(v1, v2);
+            var dot = operations.DotProduct(v1, v2);
+            var cross = operations.CrossProduct(v1, v2);
+            var transformed = operations.Transform(matrix, v1);
+            var normV1 = operations.Norm(v1);
+            var normV2 = operations.Norm(v2);
 
             Console.WriteLine("Vetor 1: " + v1);
             Console.WriteLine("Vetor 2: " + v2);
