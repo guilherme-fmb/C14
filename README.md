@@ -20,6 +20,11 @@ Também é possível gerenciar os pacotes NuGet e gerar o executável utilizando
 
 ## Testes
 Foi utilizado a suíte de testes [xUnit](https://xunit.net/?tabs=cs). Os testes podem ser facilmente rodados no Visual Studio utilizando o menu **Teste > Rodar todos os testes**.
+### Teste de regressão
+Com o PR de [regressão](https://github.com/guilherme-fmb/C14/commit/240dfe351b3409da438c966f09805d22dc8d348d), o teste da função Add falhou:  
+![Falha de teste](https://i.imgur.com/ZyXWi9k.png)  
+E então a [correção](https://github.com/guilherme-fmb/C14/commit/0e8db8309f9101c6d6a61e2d25d15e339483ece0) foi feita:  
+![Teste corrigido](https://i.imgur.com/UVIUw1h.png)
 
 ## Dependências
 [ MathNet.Numerics](https://www.nuget.org/packages/MathNet.Numerics/5.0.0?_src=template)  
