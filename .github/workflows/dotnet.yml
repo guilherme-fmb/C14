@@ -2,9 +2,9 @@ name: .NET 8 Build, Test, Notify
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "master" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "master" ]
 
 # Mailjet config
 env:
