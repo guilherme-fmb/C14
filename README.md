@@ -1,6 +1,11 @@
 # C14
 Simples aplicação que faz cálculos matemáticos em C#.
 
+[![.NET 8 Build, Test, Notify](https://github.com/guilherme-fmb/C14/actions/workflows/dotnet.yml/badge.svg)](https://github.com/guilherme-fmb/C14/actions/workflows/dotnet.yml)
+
+## Actions
+O Github Actions foi configurado, variables e secrets configurados para disparar o e-mail, e geração de artefatos (testes e o binário) feitos.
+
 ## Compilação
 Faça o download da [SDK do .NET 8.0](https://dotnet.microsoft.com/pt-br/download/dotnet/8.0), navegue até o diretório do arquivo *C14.csproj* com sua CLI e utilize os seguintes comandos:
 - *dotnet restore*
