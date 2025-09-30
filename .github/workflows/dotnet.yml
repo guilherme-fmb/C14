@@ -1,0 +1,104 @@
+name: .NET 8 Build, Test, Notify
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+# Mailjet config
+env:
+  NOTIFY_EMAIL: ${{ vars.NOTIFY_EMAIL }}
+  EMAIL_FROM: ${{ vars.EMAIL_FROM }}
+  SMTP_SERVER: in-v3.mailjet.com
+  SMTP_PORT: 587
+  SMTP_USERNAME: ${{ secrets.SMTP_USERNAME }}
+  SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+  SMTP_USE_SSL: true
+
+jobs:
+  build:
+    name: Build
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore
+        run: dotnet restore C14.sln
+
+      - name: Build
+        run: dotnet build C14.sln -c Release --no-restore
+
+      - name: Publish app (Release)
+        run: dotnet publish C14/C14.csproj -c Release -o artifacts/app
+
+      - name: Upload application artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: C14-app-Release
+          path: artifacts/app
+          if-no-files-found: error
+          retention-days: 14
+
+  tests:
+    name: Tests
+    runs-on: windows-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup .NET 8 SDK
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+
+      - name: Restore
+        run: dotnet restore C14.sln
+
+      - name: Test
+        run: dotnet test C14.Tests/C14.Tests.csproj -c Release --logger "trx;LogFileName=testResults.trx"
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: TestResults
+          path: |
+            **/TestResults/*.trx
+
+  notification:
+    name: Notification
+    runs-on: windows-latest
+    needs: [ build, tests ]
+    if: always()
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Ensure MailKit module when using port 465
+        if: ${{ env.SMTP_PORT == '465' }}
+        shell: pwsh
+        run: |
+          Set-PSRepository PSGallery -InstallationPolicy Trusted
+          Install-Module MailKit -Scope CurrentUser -Force -AllowClobber
+
+      - name: Compose and send email
+        shell: pwsh
+        continue-on-error: true
+        working-directory: ${{ github.workspace }}
+        run: |
+          $pipelineStatus = if ('${{ job.status }}' -ne '') { '${{ job.status }}' } else { 'unknown' }
+          $buildStatus = '${{ needs.build.result }}'
+          $testStatus = '${{ needs.tests.result }}'
+          ./scripts/send-email.ps1 -PipelineStatus $pipelineStatus -BuildStatus $buildStatus -TestStatus $testStatus
